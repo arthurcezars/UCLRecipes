@@ -5,8 +5,20 @@ import 'package:ucl_recipes/views/recipe_search.dart';
 import 'package:ucl_recipes/views/signin.dart';
 import 'package:ucl_recipes/views/signup.dart';
 import 'package:ucl_recipes/views/user_menu_account.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
-void main() => runApp(const MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await Supabase.initialize(
+      url: 'https://url.supabase.co',
+      anonKey: 'anonKey',
+      authCallbackUrlHostname: 'login-callback', // optional
+      debug: true // optional
+      );
+
+  runApp(const MyApp());
+}
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);

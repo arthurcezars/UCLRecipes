@@ -1,8 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:ucl_recipes/widgets/app_default_appbar.dart';
 
-class UserMenuAccount extends StatelessWidget {
+class UserMenuAccount extends StatefulWidget {
   const UserMenuAccount({Key? key}) : super(key: key);
+
+  @override
+  State<UserMenuAccount> createState() => _UserMenuAccountState();
+}
+
+class _UserMenuAccountState extends State<UserMenuAccount> {
+  Future _signOut(BuildContext context) async {
+    final response = await Supabase.instance.client.auth.signOut();
+    if (!mounted) return;
+    if (response.error != null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Erro: ${response.error?.message}'),
+        ),
+      );
+    } else {
+      Navigator.pushNamed(context, '/');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +77,7 @@ class UserMenuAccount extends StatelessWidget {
                       color: Colors.orangeAccent,
                     ),
                     onTap: () {
-                      Navigator.pushNamed(context, "/");
+                      _signOut(context);
                     },
                   ),
                 ),
