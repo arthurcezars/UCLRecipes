@@ -5,10 +5,11 @@ class User {
   final String name;
   final String phone;
 
-  const User(
-      {required this.id,
-      required this.email,
-      required this.password,
-      required this.name,
-      required this.phone});
+  const User({
+    required this.id,
+    required this.email,
+    required this.password,
+    required this.name,
+    required this.phone,
+  });
 }

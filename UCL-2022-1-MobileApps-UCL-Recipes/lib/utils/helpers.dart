@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 String? validateEmail(String? value) {
@@ -29,10 +28,14 @@ String? validateName(String? value) {
 bool validateForm(GlobalKey<FormState> formKey, BuildContext context) {
   FocusScope.of(context).unfocus();
   if (!formKey.currentState!.validate()) {
-    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-      content: Text('Preencha os campos corretamente'),
-    ));
+    showMessage(context, 'Preencha os campos corretamente');
     return false;
   }
   return true;
+}
+
+void showMessage(BuildContext context, String message) {
+  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+    content: Text(message),
+  ));
 }

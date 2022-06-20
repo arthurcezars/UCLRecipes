@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:ucl_recipes/widgets/app_default_appbar.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class UserMenuAccount extends StatefulWidget {
   const UserMenuAccount({Key? key}) : super(key: key);
@@ -10,6 +10,11 @@ class UserMenuAccount extends StatefulWidget {
 }
 
 class _UserMenuAccountState extends State<UserMenuAccount> {
+  final String _userName = (Supabase
+      .instance.client.auth.currentSession?.user?.userMetadata["name"]!)!;
+  final String _userEmail =
+      (Supabase.instance.client.auth.currentSession?.user?.email)!;
+
   Future _signOut(BuildContext context) async {
     final response = await Supabase.instance.client.auth.signOut();
     if (!mounted) return;
@@ -30,16 +35,12 @@ class _UserMenuAccountState extends State<UserMenuAccount> {
       appBar: DefaultAppBar(title: 'Minha conta', appBar: AppBar()),
       body: ListView(
         children: <Widget>[
-          const UserAccountsDrawerHeader(
-            decoration: BoxDecoration(
+          UserAccountsDrawerHeader(
+            decoration: const BoxDecoration(
               color: Colors.orangeAccent,
             ),
-            currentAccountPicture: CircleAvatar(
-              backgroundImage: NetworkImage(
-                  "https://img.freepik.com/free-psd/3d-illustration-person_23-2149436182.jpg?t=st=1654484568~exp=1654485168~hmac=219dc58ab0a787407b8b7718b4c6c95b468ebdc5aa32a99c223ef39c2d21ca59&w=740"),
-            ),
-            accountName: Text("Nome do Usuário Logado"),
-            accountEmail: Text("email@dominio.com"),
+            accountName: Text(_userName),
+            accountEmail: Text(_userEmail),
           ),
           Padding(
             padding: const EdgeInsets.all(10),

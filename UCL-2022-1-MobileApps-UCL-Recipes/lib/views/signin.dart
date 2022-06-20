@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:ucl_recipes/utils/helpers.dart';
 import 'package:ucl_recipes/widgets/app_title.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class Signin extends StatefulWidget {
   const Signin({Key? key}) : super(key: key);
@@ -73,7 +73,14 @@ class _SigninState extends State<Signin> {
               margin: const EdgeInsets.only(top: 10, bottom: 10),
               child: ElevatedButton(
                 onPressed: () {
-                  if (validateForm(_formKey, context)) _signIn(context);
+                  if (validateForm(_formKey, context)) {
+                    //   _supabase.signIn(
+                    //     context,
+                    //     email: emailController.text,
+                    //     password: passwordController.text,
+                    //   );
+                    _signIn(context);
+                  }
                 },
                 style: ButtonStyle(
                   backgroundColor:

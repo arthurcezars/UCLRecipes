@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:ucl_recipes/widgets/app_title.dart';
-import '/utils/helpers.dart';
+import 'package:ucl_recipes/utils/helpers.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class Signup extends StatefulWidget {
   const Signup({Key? key}) : super(key: key);
@@ -99,7 +99,16 @@ class _SignupState extends State<Signup> {
               margin: const EdgeInsets.only(top: 10, bottom: 10),
               child: ElevatedButton(
                 onPressed: () {
-                  if (validateForm(_formKey, context)) _signUp(context);
+                  if (validateForm(_formKey, context)) {
+                    // _supabase.signUp(
+                    //   context,
+                    //   email: emailController.text,
+                    //   password: passwordController.text,
+                    //   name: nameController.text,
+                    //   phone: phoneController.text,
+                    // );
+                    _signUp(context);
+                  }
                 },
                 style: ButtonStyle(
                   backgroundColor:

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+// import 'package:ucl_recipes/services/supabase_services.dart';
 import 'package:ucl_recipes/views/recipe_details.dart';
 import 'package:ucl_recipes/views/recipe_list.dart';
 import 'package:ucl_recipes/views/recipe_search.dart';
@@ -17,20 +18,30 @@ void main() async {
       debug: true // optional
       );
 
-  runApp(const MyApp());
+  // print(Supabase.instance.client.auth.currentSession?.toJson().toString());
+
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  MyApp({Key? key}) : super(key: key);
 
+  final bool _isLogged = Supabase.instance.client.auth.currentSession != null;
   static const String _title = 'UCL Recipes';
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: _title,
-      theme: ThemeData(backgroundColor: Colors.orange),
-      initialRoute: '/',
+      theme: ThemeData(
+        backgroundColor: Colors.orange,
+        primarySwatch: Colors.orange,
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Colors.orange,
+          foregroundColor: Colors.white,
+        ),
+      ),
+      initialRoute: _isLogged ? '/recipe_search' : '/',
       routes: {
         '/': (context) => const Signin(),
         '/signup': (context) => const Signup(),
