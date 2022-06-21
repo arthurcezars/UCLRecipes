@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:multi_select_flutter/multi_select_flutter.dart';
 import 'package:ucl_recipes/utils/constants.dart';
 import 'package:ucl_recipes/utils/helpers.dart';
+import 'package:ucl_recipes/views/recipe_list.dart';
 import 'package:ucl_recipes/widgets/app_default_appbar.dart';
 
 class Ingredient {
@@ -22,44 +23,38 @@ class RecipeSearch extends StatefulWidget {
 }
 
 class _RecipeSearchState extends State<RecipeSearch> {
-  static List<Ingredient> _ingredients = [
-    Ingredient(id: 1, name: "macarrão"),
-    Ingredient(id: 2, name: "alho")
-  ];
-  final _listIngredients = _ingredients
-      .map((ingrendient) =>
-          MultiSelectItem<Ingredient>(ingrendient, ingrendient.name))
-      .toList();
+  static final List<Ingredient> _temp = [];
+  static List<MultiSelectItem<Ingredient>> _listIngredients = [];
   List<Ingredient> _selectedIngredients = [];
   bool _isLoading = false;
 
-  // Future<void> _getIngredients() async {
-  //   setState(() {
-  //     _isLoading = true;
-  //   });
-  //   final response = await supabase.from("ingredient").select("*").execute();
-  //   final error = response.error;
-  //   if (error != null && response.status != 406 && mounted) {
-  //     showMessage(context, error.message);
-  //   }
-  //   final data = response.data;
-  //   if (data != null) {
-  //     // print(data);
-  //     setState(() {
-  //       _items = data
-  //           .map((ingredient) =>
-  //               MultiSelectItem<Ingredient>(ingredient, ingredient.name))
-  //           .toList();
-  //       _isLoading = false;
-  //     });
-  //   }
-  // }
+  Future<void> _getIngredients() async {
+    setState(() {
+      _isLoading = true;
+    });
+    final response = await supabase.from("ingredient").select("*").execute();
+    final error = response.error;
+    if (error != null && response.status != 406 && mounted) {
+      showMessage(context, error.message);
+    }
+    final List<dynamic> data = response.data;
+    data.cast<Ingredient>();
+    setState(() {
+      data.forEach((ingredient) => _temp
+          .add(Ingredient(id: ingredient["id"], name: ingredient["name"])));
+      _listIngredients = _temp
+          .map((ingredient) =>
+              MultiSelectItem<Ingredient>(ingredient, ingredient.name))
+          .toList();
+      _isLoading = false;
+    });
+  }
 
-  // @override
-  // void initState() {
-  //   _getIngredients();
-  //   super.initState();
-  // }
+  @override
+  void initState() {
+    _getIngredients();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -91,12 +86,14 @@ class _RecipeSearchState extends State<RecipeSearch> {
                             final newList = values.cast<Ingredient>();
                             setState(() {
                               _selectedIngredients = newList;
+                              print(_selectedIngredients);
                             });
                           },
                           chipDisplay: MultiSelectChipDisplay(
                             onTap: (value) {
                               setState(() {
                                 _selectedIngredients.remove(value);
+                                print(_selectedIngredients);
                               });
                             },
                           ),
@@ -114,8 +111,14 @@ class _RecipeSearchState extends State<RecipeSearch> {
                                 height: 50,
                                 child: ElevatedButton(
                                   onPressed: () {
-                                    Navigator.pushNamed(
-                                        context, '/recipe_list');
+                                    // Navigator.pushNamed(
+                                    //     context, '/recipe_list');
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => RecipeList(
+                                                ingredients:
+                                                    _selectedIngredients)));
                                   },
                                   style: ButtonStyle(
                                     backgroundColor:
