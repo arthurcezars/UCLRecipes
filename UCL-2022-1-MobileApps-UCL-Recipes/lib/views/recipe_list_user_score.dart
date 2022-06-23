@@ -2,28 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:ucl_recipes/models/recipe.dart';
 import 'package:ucl_recipes/utils/constants.dart';
 import 'package:ucl_recipes/utils/helpers.dart';
-import 'package:ucl_recipes/views/recipe_search.dart';
 import 'package:ucl_recipes/widgets/app_default_appbar.dart';
 import 'package:ucl_recipes/widgets/recipe_tile.dart';
 
-class RecipeList extends StatefulWidget {
-  final List<Ingredient>? ingredients;
-  const RecipeList({super.key, this.ingredients});
+class RecipeListUserScore extends StatefulWidget {
+  const RecipeListUserScore({super.key});
 
   @override
-  State<RecipeList> createState() => _RecipeListState();
+  State<RecipeListUserScore> createState() => _RecipeListUserScoreState();
 }
 
-class _RecipeListState extends State<RecipeList> {
+class _RecipeListUserScoreState extends State<RecipeListUserScore> {
   bool _isLoading = false;
-  late final List<int> _listIdIngredients = [];
+  final String _idUser = session!.user!.id;
   late final List<Recipe> _listFoundRecipes = [];
-
-  void _selectIdsIngredients() {
-    widget.ingredients?.forEach(
-      (ingredient) => _listIdIngredients.add(ingredient.id),
-    );
-  }
 
   Future<void> _getRecipes() async {
     setState(() {
@@ -31,31 +23,33 @@ class _RecipeListState extends State<RecipeList> {
     });
     final response = await supabase
         .from('recipe')
-        .select('*, recipe_ingredient!inner(*)')
-        .in_("recipe_ingredient.id_ingredient", _listIdIngredients)
+        .select('*, recipe_score!inner(*)')
+        .eq("recipe_score.id_user", _idUser)
         .execute();
     final error = response.error;
     if (error != null && response.status != 406 && mounted) {
       showMessage(context, error.message);
+    } else {
+      final List<dynamic> data = response.data;
+      setState(() {
+        for (var recipe in data) {
+          _listFoundRecipes.add(
+            Recipe(
+              id: recipe["id"],
+              name: recipe["name"],
+              description: recipe["description"],
+            ),
+          );
+        }
+      });
     }
-    final List<dynamic> data = response.data;
     setState(() {
-      for (var recipe in data) {
-        _listFoundRecipes.add(
-          Recipe(
-            id: recipe["id"],
-            name: recipe["name"],
-            description: recipe["description"],
-          ),
-        );
-      }
       _isLoading = false;
     });
   }
 
   @override
   void initState() {
-    _selectIdsIngredients();
     _getRecipes();
     super.initState();
   }
@@ -64,7 +58,7 @@ class _RecipeListState extends State<RecipeList> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: DefaultAppBar(
-        title: 'Receitas encontradas',
+        title: 'Receitas avaliadas',
         appBar: AppBar(),
       ),
       body: Container(
@@ -78,7 +72,7 @@ class _RecipeListState extends State<RecipeList> {
                       recipe: _listFoundRecipes.elementAt(i),
                     ),
                   )
-                : const Text("Nenhuma receita encontrada..."),
+                : const Text("Você não possui nenhuma receita encontrada..."),
       ),
     );
   }

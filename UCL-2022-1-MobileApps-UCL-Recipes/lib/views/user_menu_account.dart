@@ -54,7 +54,7 @@ class _UserMenuAccountState extends State<UserMenuAccount> {
                       color: Colors.orangeAccent,
                     ),
                     onTap: () {
-                      Navigator.pushNamed(context, "/recipe_list");
+                      Navigator.pushNamed(context, "/recipe_list_user");
                     },
                   ),
                 ),
@@ -66,7 +66,31 @@ class _UserMenuAccountState extends State<UserMenuAccount> {
                       color: Colors.orangeAccent,
                     ),
                     onTap: () {
-                      Navigator.pushNamed(context, "/recipe_list");
+                      Navigator.pushNamed(context, "/recipe_list_user_score");
+                    },
+                  ),
+                ),
+                Card(
+                  child: ListTile(
+                    title: const Text("Seguidores"),
+                    trailing: const Icon(
+                      Icons.chevron_left_rounded,
+                      color: Colors.orangeAccent,
+                    ),
+                    onTap: () {
+                      Navigator.pushNamed(context, "/recipe_list_user_score");
+                    },
+                  ),
+                ),
+                Card(
+                  child: ListTile(
+                    title: const Text("Seguindo"),
+                    trailing: const Icon(
+                      Icons.chevron_right_rounded,
+                      color: Colors.orangeAccent,
+                    ),
+                    onTap: () {
+                      Navigator.pushNamed(context, "/recipe_list_user_score");
                     },
                   ),
                 ),
