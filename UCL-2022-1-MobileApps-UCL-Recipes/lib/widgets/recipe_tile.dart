@@ -16,10 +16,11 @@ class RecipeTile extends StatelessWidget {
             title: Text(recipe.name),
             trailing: const Icon(Icons.remove_red_eye_rounded),
             onTap: () {
-              Navigator.pushNamed(
+              Navigator.push(
                 context,
-                "/recipe_details",
-                arguments: RecipeDetailsArguments(recipe),
+                MaterialPageRoute(
+                  builder: (context) => RecipeDetails(recipe: recipe),
+                ),
               );
             },
           ),
