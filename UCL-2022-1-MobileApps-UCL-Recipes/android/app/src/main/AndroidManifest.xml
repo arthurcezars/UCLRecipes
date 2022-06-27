@@ -1,6 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.ucl_recipes">
-   <application
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <application
         android:label="ucl_recipes"
         android:name="${applicationName}"
         android:icon="@mipmap/launcher_icon">
@@ -23,10 +24,11 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
-                <!-- Accepts URIs that begin with YOUR_SCHEME://YOUR_HOST -->
-                <data
-                android:scheme="io.supabase.flutterquickstart"
-                android:host="login-callback" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />            
+                <category android:name="android.intent.category.DEFAULT" />        
+                <category android:name="android.intent.category.BROWSABLE" /> 
             </intent-filter>
         </activity>
         <!-- Don't delete the meta-data below.
