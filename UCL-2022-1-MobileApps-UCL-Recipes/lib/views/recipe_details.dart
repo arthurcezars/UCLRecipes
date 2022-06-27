@@ -22,6 +22,7 @@ class _RecipeDetailsState extends State<RecipeDetails> {
   bool _recipeIsValued = false;
   int _recipeScore = 0;
 
+  // verifica se a receita está na lista de favoritos do usuário
   Future<void> _getRecipeSaved() async {
     setState(() {
       _isLoading = true;
@@ -43,6 +44,7 @@ class _RecipeDetailsState extends State<RecipeDetails> {
     });
   }
 
+  // verifica se o usuário avaliou a receita
   Future<void> _getRecipeScore() async {
     setState(() {
       _isLoading = true;
@@ -67,6 +69,7 @@ class _RecipeDetailsState extends State<RecipeDetails> {
     });
   }
 
+  // inclui/remove a receita na lista de favoritos do usuário
   Future<void> _setRecipeSaved() async {
     dynamic response;
     setState(() {
@@ -95,6 +98,7 @@ class _RecipeDetailsState extends State<RecipeDetails> {
     });
   }
 
+  // inclui/atualiza a avaliação da receita feita pelo usuário
   Future<void> _setRecipeScore(int score) async {
     dynamic response;
     setState(() {
@@ -131,7 +135,7 @@ class _RecipeDetailsState extends State<RecipeDetails> {
   @override
   void initState() {
     _idRecipe = widget.recipe!.id;
-    _idUser = session!.user!.id;
+    _idUser = supabase.auth.currentSession!.user!.id;
     _getRecipeSaved();
     _getRecipeScore();
     super.initState();

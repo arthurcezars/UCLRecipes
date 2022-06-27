@@ -5,53 +5,50 @@ import 'package:ucl_recipes/utils/helpers.dart';
 import 'package:ucl_recipes/widgets/app_default_appbar.dart';
 import 'package:ucl_recipes/widgets/recipe_tile.dart';
 
-class RecipeListUser extends StatefulWidget {
-  const RecipeListUser({super.key});
+class UserRecipesList extends StatefulWidget {
+  final String? idUser;
+  const UserRecipesList({super.key, this.idUser});
 
   @override
-  State<RecipeListUser> createState() => _RecipeListUserState();
+  State<UserRecipesList> createState() => _UserRecipesListState();
 }
 
-class _RecipeListUserState extends State<RecipeListUser> {
+class _UserRecipesListState extends State<UserRecipesList> {
   bool _isLoading = false;
-  final String _idUser = supabase.auth.currentSession!.user!.id;
   late final List<Recipe> _listFoundRecipes = [];
 
   // seleciona as receitas salvas pelo usuário
-  Future<void> _getRecipes() async {
+  Future<void> _getUserRecipes() async {
     setState(() {
       _isLoading = true;
     });
     final response = await supabase
         .from('recipe')
         .select('*, recipe_saved!inner(*)')
-        .eq("recipe_saved.id_user", _idUser)
+        .eq("recipe_saved.id_user", widget.idUser)
         .execute();
     final error = response.error;
     if (error != null && response.status != 406 && mounted) {
       showMessage(context, error.message);
-    } else {
-      final List<dynamic> data = response.data;
-      setState(() {
-        for (var recipe in data) {
-          _listFoundRecipes.add(
-            Recipe(
-              id: recipe["id"],
-              name: recipe["name"],
-              description: recipe["description"],
-            ),
-          );
-        }
-      });
     }
+    final List<dynamic> data = response.data;
     setState(() {
+      for (var recipe in data) {
+        _listFoundRecipes.add(
+          Recipe(
+            id: recipe["id"],
+            name: recipe["name"],
+            description: recipe["description"],
+          ),
+        );
+      }
       _isLoading = false;
     });
   }
 
   @override
   void initState() {
-    _getRecipes();
+    _getUserRecipes();
     super.initState();
   }
 
@@ -73,7 +70,7 @@ class _RecipeListUserState extends State<RecipeListUser> {
                       recipe: _listFoundRecipes.elementAt(i),
                     ),
                   )
-                : const Text("Você não possui nenhuma receita encontrada..."),
+                : const Text("Nenhuma receita encontrada..."),
       ),
     );
   }

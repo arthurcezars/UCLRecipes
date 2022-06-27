@@ -25,6 +25,7 @@ class _RecipeListState extends State<RecipeList> {
     );
   }
 
+  // seleciona as receitas que possuem o(s) ingrediente(s) selecionados
   Future<void> _getRecipes() async {
     setState(() {
       _isLoading = true;

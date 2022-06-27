@@ -14,9 +14,10 @@ class RecipeListUserScore extends StatefulWidget {
 
 class _RecipeListUserScoreState extends State<RecipeListUserScore> {
   bool _isLoading = false;
-  final String _idUser = session!.user!.id;
+  final String _idUser = supabase.auth.currentSession!.user!.id;
   late final List<Recipe> _listFoundRecipes = [];
 
+  // seleciona as receitas avaliadas pelo usuário
   Future<void> _getRecipes() async {
     setState(() {
       _isLoading = true;

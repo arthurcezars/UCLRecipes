@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:ucl_recipes/utils/constants.dart';
 import 'package:ucl_recipes/widgets/app_default_appbar.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 class UserMenuAccount extends StatefulWidget {
   const UserMenuAccount({Key? key}) : super(key: key);
@@ -10,13 +10,12 @@ class UserMenuAccount extends StatefulWidget {
 }
 
 class _UserMenuAccountState extends State<UserMenuAccount> {
-  final String _userName = (Supabase
-      .instance.client.auth.currentSession?.user?.userMetadata["name"]!)!;
-  final String _userEmail =
-      (Supabase.instance.client.auth.currentSession?.user?.email)!;
+  final String _userName =
+      (supabase.auth.currentSession?.user?.userMetadata["name"]!)!;
+  final String _userEmail = (supabase.auth.currentSession?.user?.email)!;
 
   Future _signOut(BuildContext context) async {
-    final response = await Supabase.instance.client.auth.signOut();
+    final response = await supabase.auth.signOut();
     if (!mounted) return;
     if (response.error != null) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -72,13 +71,25 @@ class _UserMenuAccountState extends State<UserMenuAccount> {
                 ),
                 Card(
                   child: ListTile(
+                    title: const Text("Pessoas"),
+                    trailing: const Icon(
+                      Icons.supervisor_account_rounded,
+                      color: Colors.orangeAccent,
+                    ),
+                    onTap: () {
+                      Navigator.pushNamed(context, "/users_list");
+                    },
+                  ),
+                ),
+                Card(
+                  child: ListTile(
                     title: const Text("Seguidores"),
                     trailing: const Icon(
                       Icons.chevron_left_rounded,
                       color: Colors.orangeAccent,
                     ),
                     onTap: () {
-                      Navigator.pushNamed(context, "/recipe_list_user_score");
+                      Navigator.pushNamed(context, "/user_followers_list");
                     },
                   ),
                 ),
@@ -90,7 +101,7 @@ class _UserMenuAccountState extends State<UserMenuAccount> {
                       color: Colors.orangeAccent,
                     ),
                     onTap: () {
-                      Navigator.pushNamed(context, "/recipe_list_user_score");
+                      Navigator.pushNamed(context, "/user_following_list");
                     },
                   ),
                 ),
