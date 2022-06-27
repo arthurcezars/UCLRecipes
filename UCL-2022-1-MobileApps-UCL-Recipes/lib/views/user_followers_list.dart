@@ -16,7 +16,7 @@ class _UserFollowersListState extends State<UserFollowersList> {
   bool _isLoading = false;
   late final List<User> _listFollowers = [];
 
-  // lista os IDs dos seguidores
+  // lista os IDs dos seguidores do usuário
   Future<void> _getIdsFollowers() async {
     setState(() {
       _isLoading = true;

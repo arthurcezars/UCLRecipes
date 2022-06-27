@@ -28,6 +28,7 @@ class _RecipeSearchState extends State<RecipeSearch> {
   List<Ingredient> _selectedIngredients = [];
   bool _isLoading = false;
 
+  // seleciona os ingredientes cadastrados
   Future<void> _getIngredients() async {
     setState(() {
       _isLoading = true;

@@ -16,6 +16,7 @@ class _UsersListState extends State<UsersList> {
   bool _isLoading = false;
   late final List<User> _listUsers = [];
 
+  // seleciona os usuários cadastrados no app
   Future<void> _getUsers() async {
     setState(() {
       _isLoading = true;

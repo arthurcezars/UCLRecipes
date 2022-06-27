@@ -17,6 +17,7 @@ class _RecipeListUserState extends State<RecipeListUser> {
   final String _idUser = supabase.auth.currentSession!.user!.id;
   late final List<Recipe> _listFoundRecipes = [];
 
+  // seleciona as receitas salvas pelo usuário
   Future<void> _getRecipes() async {
     setState(() {
       _isLoading = true;

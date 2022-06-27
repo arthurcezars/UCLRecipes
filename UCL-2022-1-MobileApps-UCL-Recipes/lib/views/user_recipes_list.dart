@@ -17,6 +17,7 @@ class _UserRecipesListState extends State<UserRecipesList> {
   bool _isLoading = false;
   late final List<Recipe> _listFoundRecipes = [];
 
+  // seleciona as receitas salvas pelo usuário
   Future<void> _getUserRecipes() async {
     setState(() {
       _isLoading = true;
