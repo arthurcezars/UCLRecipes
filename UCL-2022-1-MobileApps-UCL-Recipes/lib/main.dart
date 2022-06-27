@@ -7,8 +7,12 @@ import 'package:ucl_recipes/views/recipe_list_user_score.dart';
 import 'package:ucl_recipes/views/recipe_search.dart';
 import 'package:ucl_recipes/views/signin.dart';
 import 'package:ucl_recipes/views/signup.dart';
+import 'package:ucl_recipes/views/user_followers_list.dart';
+import 'package:ucl_recipes/views/user_following_list.dart';
 import 'package:ucl_recipes/views/user_menu_account.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:ucl_recipes/views/user_recipes_list.dart';
+import 'package:ucl_recipes/views/users_list.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -17,8 +21,6 @@ void main() async {
     url: 'https://rqgvzrddrbnfbxqnlait.supabase.co',
     anonKey:
         'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJxZ3Z6cmRkcmJuZmJ4cW5sYWl0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2NTU0MTM3MzQsImV4cCI6MTk3MDk4OTczNH0.gdcmGBNDAiqQaga3021EgF7xF5Kf_KOpgizCfYFFsEY',
-    // authCallbackUrlHostname: 'login-callback', // optional
-    // debug: true // optional
   );
 
   runApp(const MyApp());
@@ -41,7 +43,8 @@ class MyApp extends StatelessWidget {
           foregroundColor: Colors.white,
         ),
       ),
-      initialRoute: session != null ? '/recipe_search' : '/',
+      initialRoute:
+          supabase.auth.currentSession != null ? '/recipe_search' : '/',
       routes: {
         '/': (context) => const Signin(),
         '/signup': (context) => const Signup(),
@@ -50,7 +53,11 @@ class MyApp extends StatelessWidget {
         '/recipe_list': (context) => const RecipeList(),
         '/recipe_list_user': (context) => const RecipeListUser(),
         '/recipe_list_user_score': (context) => const RecipeListUserScore(),
-        '/recipe_details': (context) => const RecipeDetails()
+        '/recipe_details': (context) => const RecipeDetails(),
+        '/users_list': (context) => const UsersList(),
+        '/user_recipes_list': (context) => const UserRecipesList(),
+        '/user_following_list': (context) => const UserFollowingList(),
+        '/user_followers_list': (context) => const UserFollowersList(),
       },
     );
   }

@@ -14,7 +14,7 @@ class RecipeListUser extends StatefulWidget {
 
 class _RecipeListUserState extends State<RecipeListUser> {
   bool _isLoading = false;
-  final String _idUser = session!.user!.id;
+  final String _idUser = supabase.auth.currentSession!.user!.id;
   late final List<Recipe> _listFoundRecipes = [];
 
   Future<void> _getRecipes() async {

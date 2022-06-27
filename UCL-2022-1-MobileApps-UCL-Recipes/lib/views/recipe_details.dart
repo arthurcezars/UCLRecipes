@@ -131,7 +131,7 @@ class _RecipeDetailsState extends State<RecipeDetails> {
   @override
   void initState() {
     _idRecipe = widget.recipe!.id;
-    _idUser = session!.user!.id;
+    _idUser = supabase.auth.currentSession!.user!.id;
     _getRecipeSaved();
     _getRecipeScore();
     super.initState();
