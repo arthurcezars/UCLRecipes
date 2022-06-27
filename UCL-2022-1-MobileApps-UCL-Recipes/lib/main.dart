@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ucl_recipes/utils/constants.dart';
+import 'package:ucl_recipes/views/about.dart';
 import 'package:ucl_recipes/views/recipe_details.dart';
 import 'package:ucl_recipes/views/recipe_list.dart';
 import 'package:ucl_recipes/views/recipe_list_user.dart';
@@ -58,6 +59,7 @@ class MyApp extends StatelessWidget {
         '/user_recipes_list': (context) => const UserRecipesList(),
         '/user_following_list': (context) => const UserFollowingList(),
         '/user_followers_list': (context) => const UserFollowersList(),
+        '/about': (context) => const About(),
       },
     );
   }

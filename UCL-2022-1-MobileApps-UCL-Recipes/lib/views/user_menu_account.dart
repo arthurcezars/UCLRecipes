@@ -117,6 +117,15 @@ class _UserMenuAccountState extends State<UserMenuAccount> {
                     },
                   ),
                 ),
+                Card(
+                  child: ListTile(
+                    title: const Text("Sobre o App"),
+                    trailing: const Icon(Icons.info_outline_rounded),
+                    onTap: () {
+                      Navigator.pushNamed(context, "/about");
+                    },
+                  ),
+                ),
               ],
             ),
           ),
